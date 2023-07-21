@@ -5,10 +5,13 @@ import torchvision
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 
+# Check if CUDA is available
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
 # Hyperparameters
 batch_size = 64
 learning_rate = 0.001
-num_epochs = 10
+num_epochs = 20
 
 # Download the MNIST Fashion dataset and apply transformations
 transform = transforms.Compose([
@@ -38,8 +41,8 @@ class FashionNet(nn.Module):
         x = self.fc3(x)
         return x
 
-# Initialize the model
-model = FashionNet()
+# Initialize the model and move it to CUDA if available
+model = FashionNet().to(device)
 
 # Define loss function and optimizer
 criterion = nn.CrossEntropyLoss()
@@ -49,6 +52,9 @@ optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 total_steps = len(train_loader)
 for epoch in range(num_epochs):
     for i, (images, labels) in enumerate(train_loader):
+        # Move images and labels to CUDA if available
+        images, labels = images.to(device), labels.to(device)
+
         # Forward pass
         outputs = model(images)
         loss = criterion(outputs, labels)
@@ -69,6 +75,9 @@ with torch.no_grad():
     correct = 0
     total = 0
     for images, labels in test_loader:
+        # Move images and labels to CUDA if available
+        images, labels = images.to(device), labels.to(device)
+
         outputs = model(images)
         _, predicted = torch.max(outputs.data, 1)
         total += labels.size(0)
