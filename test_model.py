@@ -5,6 +5,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 # Define the neural network model
 class SimpleFashionNet(torch.nn.Module):
     def __init__(self):
@@ -51,7 +52,7 @@ if __name__ == "__main__":
     ]
 
     # Provide the path to the image of your choice
-    image_path = 'photos/pants.jpg'  # Replace with the actual path to your test image
+    image_path = 'photos/shirt.jpg'# Replace with the actual path to your test image
 
     # Make a prediction
     predicted_class, probabilities = predict_image(image_path, model, class_labels)
