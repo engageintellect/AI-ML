@@ -13,7 +13,7 @@ batch_size = 64
 learning_rate = 0.001
 num_epochs = 20
 
-# Download the MNIST Fashion dataset and apply transformations
+# Download the FashionMNIST dataset and apply transformations
 transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize((0.5,), (0.5,))  # Normalize the data to have mean=0 and std=1
@@ -26,23 +26,25 @@ test_dataset = torchvision.datasets.FashionMNIST(root='./data', train=False, tra
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
-# Define the neural network model
-class FashionNet(nn.Module):
+# Define a simple neural network model
+class SimpleFashionNet(nn.Module):
     def __init__(self):
-        super(FashionNet, self).__init__()
-        self.fc1 = nn.Linear(28 * 28, 256)  # Input size: 28x28 (MNIST image size)
-        self.fc2 = nn.Linear(256, 128)
-        self.fc3 = nn.Linear(128, 10)  # Output size: 10 (number of classes)
+        super(SimpleFashionNet, self).__init__()
+        self.fc1 = nn.Linear(28 * 28, 512)
+        self.fc2 = nn.Linear(512, 256)
+        self.fc3 = nn.Linear(256, 128)
+        self.fc4 = nn.Linear(128, 10)
 
     def forward(self, x):
-        x = x.view(-1, 28 * 28)  # Flatten the input (convert 28x28 image to a 1D tensor)
+        x = x.view(-1, 28 * 28)
         x = torch.relu(self.fc1(x))
         x = torch.relu(self.fc2(x))
-        x = self.fc3(x)
+        x = torch.relu(self.fc3(x))
+        x = self.fc4(x)
         return x
 
 # Initialize the model and move it to CUDA if available
-model = FashionNet().to(device)
+model = SimpleFashionNet().to(device)
 
 # Define loss function and optimizer
 criterion = nn.CrossEntropyLoss()
@@ -51,6 +53,7 @@ optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 # Training loop
 total_steps = len(train_loader)
 for epoch in range(num_epochs):
+    model.train()  # Set the model to training mode
     for i, (images, labels) in enumerate(train_loader):
         # Move images and labels to CUDA if available
         images, labels = images.to(device), labels.to(device)

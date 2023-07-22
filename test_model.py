@@ -3,65 +3,68 @@ import torch.nn.functional as F
 from torchvision.transforms import ToTensor, Resize
 from PIL import Image
 import matplotlib.pyplot as plt
+import numpy as np
 
-# Load the saved model
-class FashionNet(torch.nn.Module):
+# Define the neural network model
+class SimpleFashionNet(torch.nn.Module):
     def __init__(self):
-        super(FashionNet, self).__init__()
-        self.fc1 = torch.nn.Linear(28 * 28, 256)
-        self.fc2 = torch.nn.Linear(256, 128)
-        self.fc3 = torch.nn.Linear(128, 10)
+        super(SimpleFashionNet, self).__init__()
+        self.fc1 = torch.nn.Linear(28 * 28, 512)
+        self.fc2 = torch.nn.Linear(512, 256)
+        self.fc3 = torch.nn.Linear(256, 128)
+        self.fc4 = torch.nn.Linear(128, 10)
 
     def forward(self, x):
         x = x.view(-1, 28 * 28)
         x = torch.relu(self.fc1(x))
         x = torch.relu(self.fc2(x))
-        x = self.fc3(x)
+        x = torch.relu(self.fc3(x))
+        x = self.fc4(x)
         return x
 
-model = FashionNet()
-model.load_state_dict(torch.load('fashion_model.pth'))
-model.eval()
-
-# Define a function to process the input image
 def process_image(image_path):
-    image = Image.open(image_path).convert('L')  # Convert to grayscale
-    resize_transform = Resize((28, 28))  # Resize the image to 28x28 pixels
+    image = Image.open(image_path).convert('L')
+    resize_transform = Resize((28, 28))
     image = resize_transform(image)
     transform = ToTensor()
     tensor = transform(image)
     return tensor
 
-# Define a function to make predictions
-def predict_image(image_path, model):
+def predict_image(image_path, model, class_labels):
     image_tensor = process_image(image_path)
     with torch.no_grad():
+        model.eval()
         outputs = model(image_tensor.unsqueeze(0))
         probabilities = F.softmax(outputs, dim=1)
-        _, predicted_class = torch.max(probabilities, 1)
-    return predicted_class.item(), probabilities.squeeze().tolist()
+        predicted_class = torch.argmax(probabilities, 1).item()
+    return predicted_class, probabilities.squeeze().tolist()
 
-# Provide the path to the image of your choice
-image_path = 'shirt.jpg'  # Replace with the actual path to your test image
+if __name__ == "__main__":
+    model = SimpleFashionNet()
+    model.load_state_dict(torch.load('fashion_model.pth', map_location=torch.device('cpu')))
+    model.eval()
 
-# Make a prediction
-predicted_class, probabilities = predict_image(image_path, model)
+    # Load class labels for reference
+    class_labels = [
+        'T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
+        'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot'
+    ]
 
-# Load class labels for reference
-class_labels = [
-    'T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
-    'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot'
-]
+    # Provide the path to the image of your choice
+    image_path = 'photos/pants.jpg'  # Replace with the actual path to your test image
 
-# Display the results
-print(f'Predicted class: {class_labels[predicted_class]}')
-print('Probabilities:')
-for i, prob in enumerate(probabilities):
-    print(f'{class_labels[i]}: {prob:.5f}')
+    # Make a prediction
+    predicted_class, probabilities = predict_image(image_path, model, class_labels)
 
-# Display the image
-img = Image.open(image_path)
-plt.imshow(img)
-plt.title(f'Predicted class: {class_labels[predicted_class]}')
-plt.axis('off')
-plt.show()
+    # Display the results
+    print(f'Predicted class: {class_labels[predicted_class]}')
+    print('Probabilities:')
+    for i, prob in enumerate(probabilities):
+        print(f'{class_labels[i]}: {prob:.5f}')
+
+    # Display the image
+    img = Image.open(image_path)
+    plt.imshow(img)
+    plt.title(f'Predicted class: {class_labels[predicted_class]}')
+    plt.axis('off')
+    plt.show()
