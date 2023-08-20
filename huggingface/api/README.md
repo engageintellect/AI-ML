@@ -7,6 +7,7 @@ This FastAPI application provides endpoints for various NLP tasks using the Hugg
 3. Zero-Shot Text Classification
 4. Text Summarization
 5. Sentiment Analysis
+6. Named Entity Recognition (NER)
 
 ## Setting up the API
 
@@ -34,6 +35,8 @@ This will start the FastAPI app, making it accessible via `http://localhost:8000
 ## API Documentation & Usage
 
 ### 1. English to French Translation
+
+---
 
 **Endpoint**: `/api/translate_en_to_fr/`
 
@@ -67,6 +70,8 @@ curl -X 'POST' \
 
 ### 2. Text Generation
 
+---
+
 **Endpoint**: `/api/generate_text/`
 
 **Method**: POST
@@ -96,6 +101,8 @@ A list of generated texts based on the input.
 
 ### 3. Zero-Shot Text Classification
 
+---
+
 **Endpoint**: `/api/classification/`
 
 **Method**: POST
@@ -124,6 +131,8 @@ curl -X 'POST' \
 Predicted labels with their associated scores.
 
 ### 4. Text Summarization
+
+---
 
 **Endpoint**: `/api/summarize_text/`
 
@@ -155,6 +164,8 @@ A summarized version of the input text.
 
 ### 5. Sentiment Analysis
 
+---
+
 **Endpoint**: `/api/analyze_sentiment/`
 
 **Method**: POST
@@ -182,6 +193,8 @@ curl -X 'POST' \
 Predicted sentiment (positive, neutral, negative) with an associated score.
 
 ### 6. Named Entity Recognition (NER)
+
+---
 
 **Endpoint**: `/api/extract_entities/`
 
