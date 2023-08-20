@@ -44,8 +44,6 @@ class TextForClassification(BaseModel):
     text: str
     candidate_labels: List[str]
 
-
-
 classifier = pipeline('zero-shot-classification')
 
 @app.post("/api/classification/")
@@ -83,6 +81,20 @@ def analyze_sentiment(request_data: TextForSentiment):
     try:
         res = sentiment_analyzer(request_data.text)
         return res[0]
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# NER API
+class TextForNER(BaseModel):
+    text: str
+
+ner = pipeline("ner", grouped_entities=True)
+
+@app.post("/api/extract_entities/")
+def extract_entities(request_data: TextForNER):
+    try:
+        res = ner(request_data.text)
+        return {"entities": res}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

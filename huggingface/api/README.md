@@ -48,6 +48,7 @@ This will start the FastAPI app, making it accessible via `http://localhost:8000
 ```
 
 **cURL**
+
 ```
 curl -X 'POST' \
   'http://localhost:8000/api/translate_en_to_fr/' \
@@ -81,6 +82,7 @@ curl -X 'POST' \
 ```
 
 **cURL**:
+
 ```
 curl -X 'POST' \
   'http://localhost:8000/api/generate_text/' \
@@ -108,6 +110,7 @@ A list of generated texts based on the input.
 ```
 
 **cURL**:
+
 ```
 curl -X 'POST' \
   'http://localhost:8000/api/classification/' \
@@ -116,7 +119,6 @@ curl -X 'POST' \
   -d '{"text": "This is a course about the Transformers library.", "candidate_labels": ["education", "politics", "business"]}'
 
 ```
-
 
 **Response**:
 Predicted labels with their associated scores.
@@ -138,6 +140,7 @@ Predicted labels with their associated scores.
 ```
 
 **cURL**:
+
 ```
 curl -X 'POST' \
   'http://localhost:8000/api/summarize_text/' \
@@ -165,6 +168,7 @@ A summarized version of the input text.
 ```
 
 **cURL**:
+
 ```
 curl -X 'POST' \
   'http://localhost:8000/api/analyze_sentiment/' \
@@ -177,7 +181,33 @@ curl -X 'POST' \
 **Response**:
 Predicted sentiment (positive, neutral, negative) with an associated score.
 
----
+### 6. Named Entity Recognition (NER)
+
+**Endpoint**: `/api/extract_entities/`
+
+**Method**: POST
+
+**Payload**:
+
+```json
+{
+  "text": "My name is Josh and I work at Emerging Technologies in Irvine, CA."
+}
+```
+
+**cURL**:
+
+```
+curl -X 'POST' \
+  'http://localhost:8000/api/extract_entities/' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{"text": "My name is Josh and I work at Emerging Technologies in Irvine, CA."}'
+
+```
+
+**Response**:
+A list of recognized entities, their types, and positions within the text.
 
 ## Testing the API
 
