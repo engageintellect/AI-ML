@@ -4,7 +4,7 @@ This FastAPI application provides endpoints for various NLP tasks using the Hugg
 
 1. English to French Translation
 2. Text Generation
-3. Zero-Shot Text Classification
+3. Category Classification
 4. Text Summarization
 5. Sentiment Analysis
 6. Named Entity Recognition (NER)
@@ -99,7 +99,7 @@ curl -X 'POST' \
 **Response**:
 A list of generated texts based on the input.
 
-### 3. Zero-Shot Text Classification
+### 3. Category Classification
 
 ---
 
