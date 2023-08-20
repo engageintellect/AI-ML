@@ -204,7 +204,7 @@ Predicted sentiment (positive, neutral, negative) with an associated score.
 
 ```json
 {
-  "text": "My name is Josh and I work at Emerging Technologies in Irvine, CA."
+  "text": "My name is Jeff and I work in BTS with Emerging Technologies in Irvine, CA."
 }
 ```
 
