@@ -11,6 +11,7 @@ uvicorn main:app --reload
 ```
 
 ## Structure
+```
 fastapi_project/
 │
 ├── main.py
@@ -28,6 +29,7 @@ fastapi_project/
 └── utils/
     └── helpers.py
 
+```
 
 ## Usage
 1. English to French Translation
