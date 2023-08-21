@@ -8,6 +8,7 @@ This FastAPI application provides endpoints for various NLP tasks using the Hugg
 4. Text Summarization
 5. Sentiment Analysis
 6. Named Entity Recognition (NER)
+7. Sentance Transformers (Sentence Embeddings)
 
 ## Setting up the API
 
@@ -219,8 +220,35 @@ curl -X 'POST' \
 
 ```
 
+### 7. Sentence Transformers (Sentence Embeddings)
+
+---
+
+**Endpoint**: `/api/sentence_embeddings/`
+
+**Method**: POST
+
+**Payload**:
+
+```json
+{
+  "sentences": ["this is a sentence", "this is another sentence"]
+}
+```
+
+**cURL**:
+
+```
+curl -X 'POST' \
+  'http://localhost:8000/api/extract_entities/' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{"text": ["this is a sentence" , "this is another sentence"]}'
+
+```
+
 **Response**:
-A list of recognized entities, their types, and positions within the text.
+An array of sentence embeddings (tensors) for the input sentences.
 
 ## Testing the API
 
