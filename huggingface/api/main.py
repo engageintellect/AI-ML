@@ -4,8 +4,6 @@ from pydantic import BaseModel
 import numpy as np
 import torch
 import torch.nn.functional as F
-
-
 from typing import List
 
 app = FastAPI()
@@ -133,8 +131,6 @@ async def extract_entities(request: TextForNER):
 # from fastapi import FastAPI, HTTPException
 # from pydantic import BaseModel
 
-
-
 # Mean Pooling - Take attention mask into account for correct averaging
 def mean_pooling(model_output, attention_mask):
     token_embeddings = model_output[0]
@@ -171,3 +167,27 @@ def get_sentence_embeddings(data: Sentences):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+
+#################################################
+# Sentence Embeddings API
+#################################################
+
+# Initialize the document_qa pipeline
+document_qa = pipeline(model="impira/layoutlm-document-qa")
+
+class DocumentQARequest(BaseModel):
+    image_url: str
+    question: str
+
+@app.post("/api/query_document/")
+def query_document(data: DocumentQARequest):
+    try:
+        response = document_qa(image=data.image_url, question=data.question)
+        return response
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+

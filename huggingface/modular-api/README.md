@@ -1,7 +1,35 @@
-# Huggingface Transformers FastAPI
+# HUGGINGFACE MODULAR API
 
-This FastAPI application provides endpoints for various NLP tasks using the Huggingface Transformers library. The current version includes:
+## Description
+This is a modular API that allows you to use the HuggingFace models in a simple way. It is based on the FastAPI framework and allows you to use the models in a simple way.
 
+## Installation
+```bash
+pip install -r requirements.txt
+sudo apt install tessaract-ocr
+uvicorn main:app --reload
+```
+
+## Structure
+fastapi_project/
+│
+├── main.py
+│
+├── endpoints/
+│   ├── translation.py
+│   ├── text_generation.py
+│   ├── classification.py
+│   ├── summarization.py
+│   ├── sentiment_analysis.py
+│   ├── ner.py
+│   ├── sentence_embeddings.py
+│   └── query_document.py
+│
+└── utils/
+    └── helpers.py
+
+
+## Usage
 1. English to French Translation
 2. Text Generation
 3. Category Classification
@@ -9,31 +37,8 @@ This FastAPI application provides endpoints for various NLP tasks using the Hugg
 5. Sentiment Analysis
 6. Named Entity Recognition (NER)
 7. Sentance Transformers (Sentence Embeddings)
+8. Document Quering
 
-## Setting up the API
-
-1. Make sure you have FastAPI and Uvicorn installed:
-
-   ```
-   pip install fastapi uvicorn
-   ```
-
-2. Install the Huggingface Transformers library:
-
-   ```
-   pip install transformers
-   ```
-
-3. Clone this repository and navigate to the directory containing the FastAPI application.
-
-4. Start the server using:
-   ```
-   uvicorn main:app --reload
-   ```
-
-This will start the FastAPI app, making it accessible via `http://localhost:8000`.
-
-## API Documentation & Usage
 
 ### 1. English to French Translation
 
