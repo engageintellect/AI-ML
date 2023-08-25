@@ -1,23 +1,52 @@
 from transformers import AutoTokenizer, AutoModelForTokenClassification, TrainingArguments, Trainer
 import torch
 
+def create_training_data(sentences, labels):
+    label_set = set(label for sentence_labels in labels for label in sentence_labels)
+    label_map = {label: i for i, label in enumerate(label_set)}
+    
+    train_texts = []
+    train_labels = []
+    
+    for sentence, sentence_labels in zip(sentences, labels):
+        tokenized_sentence = sentence.split(" ")
+        train_texts.append(tokenized_sentence)
+
+        integer_labels = [label_map[label] for label in sentence_labels]
+        train_labels.append(integer_labels)
+        
+    return train_texts, train_labels, label_map
+
 # Initialize tokenizer and model
 tokenizer = AutoTokenizer.from_pretrained("dslim/bert-base-NER")
 model = AutoModelForTokenClassification.from_pretrained("dslim/bert-base-NER")
 
-# Sample data for fine-tuning
-train_texts = [["Hello,", "my", "name", "is", "John."], ["I", "work", "at", "BTS."], ["My", "favorite", "color", "is", "blue."], ["I", "live", "in", "California."], ["I", "am", "working", "with", "EA", "team."]]
+# Example sentences and their labels
+sentences = ["Hello, my name is John.", "I work at BTS.", "My favorite color is blue.", "I live in California.", "I am working with EA team."]
+labels = [["O", "O", "O", "O", "B-PER"], ["O", "O", "O", "B-ORG"], ["O", "O", "O", "O", "O"], ["O", "O", "O", "O"], ["O", "O", "O", "O", "B-ORG", "O"]]
 
-# Define label mapping
-label_map = {"O": 0, "B-PER": 1, "I-PER": 2, "B-ORG": 3}
+# Generate train_texts, train_labels, and label_map dynamically
+train_texts, train_labels, label_map = create_training_data(sentences, labels)
 
-# Initialize train_labels using integer labels
-train_labels = [[label_map[label] for label in sentence_labels] for sentence_labels in [["O", "O", "O", "O", "B-PER"], ["O", "O", "O", "B-ORG"], ["O", "O", "O", "O", "O"], ["O", "O", "O", "O"], ["O", "O", "O", "O", "B-ORG", "O"]]]
+# Explicitly define the label mapping with all 9 original labels
+label_map = {
+    "O": 0, 
+    "B-PER": 1, 
+    "I-PER": 2, 
+    "B-ORG": 3, 
+    "I-ORG": 4,
+    "B-LOC": 5, 
+    "I-LOC": 6,
+    "B-MISC": 7, 
+    "I-MISC": 8
+}
 
-
+# Update the model's config for the number of labels
+model.config.num_labels = len(label_map)
 
 # Tokenize the texts and align the labels
 train_encodings = tokenizer(train_texts, truncation=True, padding=True, is_split_into_words=True)
+
 
 # Print to see what's inside train_encodings
 print(train_encodings.data)
