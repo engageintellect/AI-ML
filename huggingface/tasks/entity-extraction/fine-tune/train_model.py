@@ -6,13 +6,15 @@ tokenizer = AutoTokenizer.from_pretrained("dslim/bert-base-NER")
 model = AutoModelForTokenClassification.from_pretrained("dslim/bert-base-NER")
 
 # Sample data for fine-tuning
-train_texts = [["Hello,", "my", "name", "is", "John."], ["I", "work", "at", "BTS."], ["My", "favorite", "color", "is", "blue."]]
+train_texts = [["Hello,", "my", "name", "is", "John."], ["I", "work", "at", "BTS."], ["My", "favorite", "color", "is", "blue."], ["I", "live", "in", "California."], ["I", "am", "working", "with", "EA", "team."]]
 
 # Define label mapping
 label_map = {"O": 0, "B-PER": 1, "I-PER": 2, "B-ORG": 3}
 
 # Initialize train_labels using integer labels
-train_labels = [[label_map[label] for label in sentence_labels] for sentence_labels in [["O", "O", "O", "O", "B-PER"], ["O", "O", "O", "B-ORG"], ["O", "O", "O", "O", "O"]]]
+train_labels = [[label_map[label] for label in sentence_labels] for sentence_labels in [["O", "O", "O", "O", "B-PER"], ["O", "O", "O", "B-ORG"], ["O", "O", "O", "O", "O"], ["O", "O", "O", "O"], ["O", "O", "O", "O", "B-ORG", "O"]]]
+
+
 
 # Tokenize the texts and align the labels
 train_encodings = tokenizer(train_texts, truncation=True, padding=True, is_split_into_words=True)
