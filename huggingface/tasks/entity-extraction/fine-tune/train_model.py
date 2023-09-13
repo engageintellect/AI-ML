@@ -22,8 +22,8 @@ tokenizer = AutoTokenizer.from_pretrained("dslim/bert-base-NER")
 model = AutoModelForTokenClassification.from_pretrained("dslim/bert-base-NER")
 
 # Example sentences and their labels
-sentences = ["Hello, my name is John.", "I work at BTS.", "My favorite color is blue.", "I live in California.", "I am working with EA team."]
-labels = [["O", "O", "O", "O", "B-PER"], ["O", "O", "O", "B-ORG"], ["O", "O", "O", "O", "O"], ["O", "O", "O", "O"], ["O", "O", "O", "O", "B-ORG", "O"]]
+sentences = ["Hello, my name is John.", "I work at BTS.", "My favorite color is blue.", "I live in California.", "I am working with EA team."], ["Did you see what NCS division was working on?"]]
+labels = [["O", "O", "O", "O", "B-PER"], ["O", "O", "O", "B-ORG"], ["O", "O", "O", "O", "O"], ["O", "O", "O", "O"], ["O", "O", "O", "O", "B-ORG", "O"], ["O", "O", "O", "O", "B-ORG", "O", "O", "O", "O"]]
 
 # Generate train_texts, train_labels, and label_map dynamically
 train_texts, train_labels, label_map = create_training_data(sentences, labels)
@@ -95,7 +95,7 @@ train_dataset = NERDataset(train_encodings.data, train_labels_aligned)
 # Initialize the Trainer
 training_args = TrainingArguments(
     output_dir='./results',
-    num_train_epochs=3,
+    num_train_epochs=5,
     per_device_train_batch_size=4,
     warmup_steps=500,
     weight_decay=0.01,
