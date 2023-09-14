@@ -1,5 +1,6 @@
 from transformers import AutoTokenizer, AutoModelForTokenClassification, TrainingArguments, Trainer
 import torch
+import json
 
 def create_training_data(sentences, labels):
     label_set = set(label for sentence_labels in labels for label in sentence_labels)
