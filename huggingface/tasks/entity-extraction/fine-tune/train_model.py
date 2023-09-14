@@ -21,11 +21,13 @@ def create_training_data(sentences, labels):
 tokenizer = AutoTokenizer.from_pretrained("dslim/bert-base-NER")
 model = AutoModelForTokenClassification.from_pretrained("dslim/bert-base-NER")
 
-# Example sentences and their labels
-sentences = ["Hello, my name is John.", "I work at BTS.", "My favorite color is blue.", "I live in California.", "I am working with EA team."], ["Did you see what NCS division was working on?"]]
-labels = [["O", "O", "O", "O", "B-PER"], ["O", "O", "O", "B-ORG"], ["O", "O", "O", "O", "O"], ["O", "O", "O", "O"], ["O", "O", "O", "O", "B-ORG", "O"], ["O", "O", "O", "O", "B-ORG", "O", "O", "O", "O"]]
+with open('data.json') as f:
+    data = json.load(f)
 
-# Generate train_texts, train_labels, and label_map dynamically
+sentences = [item['sentence'] for item in data]
+labels = [item['labels'] for item in data]
+
+# Now you can pass sentences and labels to your function 
 train_texts, train_labels, label_map = create_training_data(sentences, labels)
 
 # Explicitly define the label mapping with all 9 original labels
