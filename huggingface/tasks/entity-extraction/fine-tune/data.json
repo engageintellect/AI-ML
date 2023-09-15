@@ -1,26 +1,32 @@
 [
-    {
-        "sentence": "Hello, my name is John.",
-        "labels": ["O", "O", "O", "O", "B-PER"]
-    },
-    {
-        "sentence": "I work at BTS.",
-        "labels": ["O", "O", "O", "B-ORG"]
-    },
-    {
-        "sentence": "My favorite color is blue.",
-        "labels": ["O", "O", "O", "O", "O"]
-    },
-    {
-        "sentence": "I live in California.",
-        "labels": ["O", "O", "O", "O"]
-    },
-    {
-        "sentence": "I am working with EA team.",
-        "labels": ["O", "O", "O", "O", "B-ORG", "O"]
-    },
-    {
-        "sentence": "Did you see what NCS division was working on?",
-        "labels": ["O", "O", "O", "O", "B-ORG", "O", "O", "O", "O"]
-    }
+  {
+    "sentence": "Hello, my name is John.",
+    "labels": ["O", "O", "O", "O", "B-PER"]
+  },
+  {
+    "sentence": "I work at BTS.",
+    "labels": ["O", "O", "O", "B-ORG"]
+  },
+  {
+    "sentence": "My favorite color is blue.",
+    "labels": ["O", "O", "O", "O", "O"]
+  },
+  {
+    "sentence": "I live in California.",
+    "labels": ["O", "O", "O", "O"]
+  },
+  {
+    "sentence": "I am working with EA team.",
+    "labels": ["O", "O", "O", "O", "B-ORG", "O"]
+  },
+
+  {
+    "sentence": "I am working with Direct team.",
+    "labels": ["O", "O", "O", "O", "B-ORG", "O"]
+  },
+
+  {
+    "sentence": "Did you see what NCS division was working on?",
+    "labels": ["O", "O", "O", "O", "B-ORG", "O", "O", "O", "O"]
+  }
 ]
