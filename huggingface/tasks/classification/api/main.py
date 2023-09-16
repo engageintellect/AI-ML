@@ -16,7 +16,7 @@ class TextForClassification(BaseModel):
 # Initialize the classifier once, outside of the endpoint, for better performance
 classifier = pipeline('zero-shot-classification')
 
-@app.post("/api/classification/")
+@app.post("/")
 def classify_text(request_data: TextForClassification):
     try:
         res = classifier(request_data.text, candidate_labels=request_data.candidate_labels)
